@@ -41,9 +41,9 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: "Hello World" },
-      { title: "Sorting" },
-      { title: "Searching" }
+      { title: "Hello World", to: "/" },
+      { title: "Sorting", to: "/" },
+      { title: "Searching", to: "/" }
     ]
   })
 };
