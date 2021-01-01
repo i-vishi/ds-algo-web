@@ -12,7 +12,7 @@
       <v-divider></v-divider>
 
       <v-list nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item v-for="item in topics" :key="item.title" link>
           <v-list-item-content>
             <v-list-item-title class="text-h6 font-weight-light">{{
               item.title
@@ -37,14 +37,33 @@
 </template>
 
 <script>
+import octokit from "../gitconfig";
+
+const config = require("../config.json");
+
 export default {
   data: () => ({
     drawer: null,
-    items: [
-      { title: "Hello World", to: "/" },
-      { title: "Sorting", to: "/" },
-      { title: "Searching", to: "/" }
-    ]
-  })
+    topics: []
+  }),
+  async created() {
+    const rp = await octokit.request(
+      "GET /repos/{owner}/{repo}/contents/{path}",
+      {
+        owner: config.username,
+        repo: config.reponame,
+        path: ""
+      }
+    );
+    this.topics = [];
+    rp.data.forEach(d => {
+      if (d.type == "dir")
+        this.topics.push({
+          title: d.name,
+          to: "/",
+          path: d.path
+        });
+    });
+  }
 };
 </script>

@@ -1,17 +1,15 @@
 <template>
   <v-sheet class="ma-4">
     <v-tabs v-model="tab" background-color="primary" dark>
-      <v-tab v-for="item in langTabs" :key="item.tab">
+      <v-tab v-for="item in codes" :key="item.tab">
         {{ item.tab }}
       </v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="item in langTabs" :key="item.tab">
+      <v-tab-item v-for="item in codes" :key="item.tab">
         <v-card flat>
-          <vue-code-highlight language="javascript">
-            <pre>{{ item.content }}</pre>
-          </vue-code-highlight>
+          <highlight-code lang="cpp">{{ item.content }}</highlight-code>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -19,28 +17,45 @@
 </template>
 
 <script>
-import { component as VueCodeHighlight } from "vue-code-highlight";
+import octokit from "../../gitconfig";
 
-import "prism-es6/components/prism-markup-templating";
-import "prism-es6/components/prism-cpp";
-
+const config = require("../../config.json");
+// "#include<stdio.h> \n\nusing namespace std;\n\nint main()\n{\n\tcout<<'Hello World'<<endl;\n}"
 export default {
   name: "ShowCode",
-  components: { VueCodeHighlight },
-
+  props: ["codetitle"],
   data: () => ({
     tab: null,
-    langTabs: [
+    codes: []
+  }),
+  async created() {
+    const rp = await octokit.request(
+      "GET /repos/{owner}/{repo}/contents/{path}",
       {
-        tab: "C",
-        content:
-          "#include<stdio.h> \n\nusing namespace std;\n\nint main()\n{\n\tcout<<'Hello World'<<endl;\n}"
-      },
-      { tab: "C++", content: "Tab 2 Content" },
-      { tab: "Python 3", content: "Tab 3 Content" },
-      { tab: "Java", content: "Tab 4 Content" },
-      { tab: "Golang", content: "Tab 5 Content" }
-    ]
-  })
+        owner: config.username,
+        repo: config.reponame,
+        path: this.codetitle
+      }
+    );
+    this.codes = [];
+    rp.data.forEach(async code => {
+      const fl = await octokit.request(
+        "GET /repos/{owner}/{repo}/contents/{path}",
+        {
+          owner: config.username,
+          repo: config.reponame,
+          path: code.path
+        }
+      );
+      const cd = await fetch(fl.data[0].download_url);
+
+      this.codes.push({
+        tab: code.name,
+        langname: toString(code.name).toLowerCase(),
+        path: code.path,
+        content: (await cd.text()).toString()
+      });
+    });
+  }
 };
 </script>
