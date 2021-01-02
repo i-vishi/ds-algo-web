@@ -9,10 +9,11 @@ import VueHighlightJS from "vue-highlight.js";
 import cpp from "highlight.js/lib/languages/cpp";
 import java from "highlight.js/lib/languages/java";
 import javascript from "highlight.js/lib/languages/javascript";
+import python from "highlight.js/lib/languages/python";
 
 import "highlight.js/styles/default.css";
 
-Vue.use(VueHighlightJS, { languages: { cpp, java, javascript } });
+Vue.use(VueHighlightJS, { languages: { cpp, java, javascript, python } });
 Vue.config.productionTip = false;
 
 new Vue({

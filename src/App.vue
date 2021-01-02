@@ -12,7 +12,19 @@
       <v-divider></v-divider>
 
       <v-list nav>
-        <v-list-item v-for="item in topics" :key="item.title" link>
+        <v-list-item link to="/">
+          <v-list-item-content>
+            <v-list-item-title class="text-h6 font-weight-light">
+              Hello World
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-for="item in topics"
+          :key="item.title"
+          link
+          @click="handleChange(item.path)"
+        >
           <v-list-item-content>
             <v-list-item-title class="text-h6 font-weight-light">{{
               item.title
@@ -57,13 +69,18 @@ export default {
     );
     this.topics = [];
     rp.data.forEach(d => {
-      if (d.type == "dir")
+      if (d.type == "dir" && d.name != "Hello World")
         this.topics.push({
           title: d.name,
           to: "/",
           path: d.path
         });
     });
+  },
+  methods: {
+    handleChange(pathname) {
+      this.$router.push({ name: "Algos", params: { pathname: pathname } });
+    }
   }
 };
 </script>
