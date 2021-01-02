@@ -10,6 +10,8 @@
   "dependencies": {
     "@octokit/core": "^3.2.4",
     "core-js": "^3.6.5",
+    "custom-env": "^2.0.1",
+    "dotenv": "^8.2.0",
     "highlight.js": "^9.18.1",
     "ngx-highlightjs": "^4.1.0",
     "vue": "^2.6.11",

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import octokit from "../gitconfig";
+import { default as octokit, username, reponame } from "../config";
 
 export default {
   data: () => ({
@@ -60,12 +60,13 @@ export default {
     const rp = await octokit.request(
       "GET /repos/{owner}/{repo}/contents/{path}",
       {
-        owner: process.env.GITHUB_USERNAME,
-        repo: process.env.GITHUB_reponame,
+        owner: username,
+        repo: reponame,
         path: ""
       }
     );
     this.topics = [];
+    console.log(rp.data);
     rp.data.forEach(d => {
       if (d.type == "dir" && d.name != "Hello World")
         this.topics.push({
