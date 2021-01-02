@@ -79,7 +79,9 @@ export default {
   },
   methods: {
     handleChange(pathname) {
-      this.$router.push({ name: "Algos", params: { pathname: pathname } });
+      this.$router
+        .replace({ name: "Algos", params: { pathname: pathname } })
+        .catch(() => {});
     }
   }
 };

@@ -22,7 +22,8 @@ const routes = [
   {
     path: "/algos/:pathname",
     name: "Algos",
-    component: Algos
+    component: Algos,
+    meta: { reuse: false }
   }
 ];
 
