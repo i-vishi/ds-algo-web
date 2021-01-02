@@ -9,8 +9,6 @@
 import ShowCode from "../components/ShowCode.vue";
 import octokit from "../../gitconfig";
 
-const config = require("../../config.json");
-
 export default {
   components: { ShowCode },
   name: "Home",
@@ -24,8 +22,8 @@ export default {
     const rp = await octokit.request(
       "GET /repos/{owner}/{repo}/contents/{path}",
       {
-        owner: config.username,
-        repo: config.reponame,
+        owner: process.env.GITHUB_USERNAME,
+        repo: process.env.GITHUB_reponame,
         path: this.pathname
       }
     );
@@ -34,8 +32,8 @@ export default {
       const fl = await octokit.request(
         "GET /repos/{owner}/{repo}/contents/{path}",
         {
-          owner: config.username,
-          repo: config.reponame,
+          owner: process.env.GITHUB_USERNAME,
+          repo: process.env.GITHUB_reponame,
           path: code.path
         }
       );

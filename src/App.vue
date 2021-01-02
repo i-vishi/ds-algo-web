@@ -51,8 +51,6 @@
 <script>
 import octokit from "../gitconfig";
 
-const config = require("../config.json");
-
 export default {
   data: () => ({
     drawer: null,
@@ -62,8 +60,8 @@ export default {
     const rp = await octokit.request(
       "GET /repos/{owner}/{repo}/contents/{path}",
       {
-        owner: config.username,
-        repo: config.reponame,
+        owner: process.env.GITHUB_USERNAME,
+        repo: process.env.GITHUB_reponame,
         path: ""
       }
     );

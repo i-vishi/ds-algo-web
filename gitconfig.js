@@ -1,6 +1,5 @@
 import { Octokit } from "@octokit/core";
-const config = require("./config.json");
 
-const octokit = new Octokit({ auth: config.token });
+const octokit = new Octokit({ auth: process.env.GITHUB_token });
 
 export default octokit;
