@@ -66,7 +66,6 @@ export default {
       }
     );
     this.topics = [];
-    console.log(rp.data);
     rp.data.forEach(d => {
       if (d.type == "dir" && d.name != "Hello World")
         this.topics.push({
