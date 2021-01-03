@@ -29,42 +29,41 @@
               Run
             </v-btn>
             <v-spacer />
-            <v-btn
-              color="red"
-              text
-              @click="compileShow = false"
-              v-show="compileShow"
-            >
+            <v-btn color="red" text @click="closeCompile" v-show="compileShow">
               Close
             </v-btn>
           </v-card-actions>
         </v-card>
+        <v-expand-transition>
+          <div v-show="compileShow">
+            <v-divider></v-divider>
+
+            <v-card-text>
+              <div v-show="compileStatus !== 'none'" class="text-overline">
+                <span class="green--text">{{
+                  statusMessage[compileStatus]
+                }}</span>
+              </div>
+              <div v-show="compileStatus === 'completed'" class="text-overline">
+                ---------
+              </div>
+              <div v-show="compileStatus === 'completed'" class="text-overline">
+                output
+              </div>
+              <div v-show="compileStatus === 'completed'" class="text-overline">
+                ---------
+              </div>
+              <div
+                v-show="compileStatus === 'completed'"
+                class="text-body-2 my-3"
+              >
+                {{ compileResult.stdout }}
+              </div>
+            </v-card-text>
+          </div>
+        </v-expand-transition>
       </v-tab-item>
     </v-tabs-items>
-
-    <v-expand-transition>
-      <div v-show="compileShow">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          <div v-show="compileStatus !== 'none'" class="text-overline">
-            <span class="green--text">{{ statusMessage[compileStatus] }}</span>
-          </div>
-          <div v-show="compileStatus === 'completed'" class="text-overline">
-            ---------
-          </div>
-          <div v-show="compileStatus === 'completed'" class="text-overline">
-            output
-          </div>
-          <div v-show="compileStatus === 'completed'" class="text-overline">
-            ---------
-          </div>
-          <div v-show="compileStatus === 'completed'" class="text-body-2 my-3">
-            {{ compileResult.stdout }}
-          </div>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
   </v-card>
 </template>
 
@@ -75,6 +74,7 @@ export default {
   props: ["codetitle", "codes"],
   data: () => ({
     tab: null,
+    currTab: null,
     compileShow: false,
     compileResult: {},
     compileStatus: "none",
@@ -84,10 +84,17 @@ export default {
       error: "Error compiling code..."
     }
   }),
+  updated() {
+    if (this.currTab !== this.tab) {
+      this.currTab = this.tab;
+      this.compileShow = false;
+    }
+  },
   methods: {
     async compileCode(langname, srcCode) {
       this.compileShow = true;
       let submitId = "";
+      this.compileStatus = "running";
       await axios
         .post("http://api.paiza.io:80/runners/create", {
           source_code: srcCode,
@@ -114,6 +121,11 @@ export default {
         .then(res => {
           this.compileResult = res.data;
         });
+    },
+    closeCompile() {
+      this.compileShow = false;
+      this.compileResult = {};
+      this.compileStatus = "none";
     }
   }
 };
