@@ -89,7 +89,7 @@ export default {
       this.compileShow = true;
       let submitId = "";
       await axios
-        .post("https://api.paiza.io:80/runners/create", {
+        .post("http://api.paiza.io:80/runners/create", {
           source_code: srcCode,
           language: langname,
           api_key: "guest"
