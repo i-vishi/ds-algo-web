@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid>
-    <div class="text-h4 ma-4">HELLO WORLD</div>
+  <v-container fluid px-14>
+    <div class="text-h4 ma-6">HELLO WORLD</div>
     <show-code :codetitle="this.pathname" :codes="this.codes" />
   </v-container>
 </template>
@@ -39,7 +39,6 @@ export default {
       );
       const cd = await fetch(fl.data[0].download_url);
       this.codes.push({
-        tab: code.name,
         langname: code.name.toLowerCase(),
         path: code.path,
         content: (await cd.text()).toString()

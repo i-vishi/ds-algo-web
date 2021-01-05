@@ -1,21 +1,21 @@
 <template>
-  <v-card class="ma-4">
+  <v-card class="ma-6" elevation="5">
     <v-tabs v-model="tab" background-color="primary" dark>
-      <v-tab v-for="item in codes" :key="item.tab">
-        {{ item.tab }}
+      <v-tab v-for="item in codes" :key="item.langname">
+        {{ item.langname }}
       </v-tab>
     </v-tabs>
     <v-skeleton-loader
-      class="pa-6"
+      class="px-6 py-10"
       max-width="400"
       type="paragraph, paragraph"
       v-show="codes.length == 0"
     ></v-skeleton-loader>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="item in codes" :key="item.tab">
+      <v-tab-item v-for="item in codes" :key="item.langname">
         <v-card flat>
-          <v-card-text class="text-body-1">
-            <highlight-code :lang="item.langname">{{
+          <v-card-text class="text-body-1 px-6 py-10">
+            <highlight-code :lang="hlLangs[item.langname]">{{
               item.content
             }}</highlight-code>
           </v-card-text>
@@ -45,20 +45,13 @@
                 }}</span>
               </div>
               <div v-show="compileStatus === 'completed'" class="text-overline">
-                ---------
-              </div>
-              <div v-show="compileStatus === 'completed'" class="text-overline">
-                output
-              </div>
-              <div v-show="compileStatus === 'completed'" class="text-overline">
-                ---------
+                ---------<br />output<br />---------
               </div>
               <div
                 v-show="compileStatus === 'completed'"
-                class="text-body-2 my-3"
-              >
-                {{ compileResult.stdout }}
-              </div>
+                class="text-body-2 my-3 compile-output"
+                v-text="compileResult.stdout"
+              ></div>
             </v-card-text>
           </div>
         </v-expand-transition>
@@ -82,6 +75,13 @@ export default {
       completed: "Successfully Compiled",
       running: "Compiling Code...",
       error: "Error compiling code..."
+    },
+    hlLangs: {
+      c: "c",
+      cpp: "cpp",
+      python3: "python",
+      java: "java",
+      golang: "go"
     }
   }),
   updated() {
@@ -130,3 +130,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.compile-output {
+  white-space: pre;
+}
+</style>

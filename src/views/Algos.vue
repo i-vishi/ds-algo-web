@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid>
-    <div class="text-h4 ma-4">{{ this.codetitle }}</div>
+  <v-container fluid px-14>
+    <div class="text-h4 ma-6">{{ this.codetitle }}</div>
     <show-code :codetitle="this.pathname" :codes="this.codes" />
   </v-container>
 </template>

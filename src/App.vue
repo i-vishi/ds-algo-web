@@ -7,6 +7,11 @@
             TOPICS
           </v-list-item-title>
         </v-list-item-content>
+        <v-list-item-action class="hidden-lg-and-up">
+          <v-btn icon @click="drawer = !drawer">
+            <v-icon x-large>mdi-close</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
 
       <v-divider></v-divider>
@@ -38,7 +43,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="text-h4 font-weight-light"
-        >Data Structures and Algorithms</v-toolbar-title
+        >DS & ALGO</v-toolbar-title
       >
     </v-app-bar>
 
