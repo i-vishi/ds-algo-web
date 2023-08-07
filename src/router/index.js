@@ -1,26 +1,26 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Algos from "../views/Algos";
+import Home from "../views/HomeView.vue";
+import Algos from "../views/AlgosView";
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "HomeView",
+    component: Home,
   },
   {
     path: "/algos/:pathname",
-    name: "Algos",
+    name: "AlgosView",
     component: Algos,
-    meta: { reuse: false }
-  }
+    meta: { reuse: false },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
-  routes
+  routes,
 });
 
 export default router;

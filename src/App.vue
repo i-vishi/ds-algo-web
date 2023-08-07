@@ -3,9 +3,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h4">
-            TOPICS
-          </v-list-item-title>
+          <v-list-item-title class="text-h4"> TOPICS </v-list-item-title>
         </v-list-item-content>
         <v-list-item-action class="hidden-lg-and-up">
           <v-btn icon @click="drawer = !drawer">
@@ -59,7 +57,7 @@ import { default as octokit, username, reponame } from "../config";
 export default {
   data: () => ({
     drawer: null,
-    topics: []
+    topics: [],
   }),
   async created() {
     const rp = await octokit.request(
@@ -67,25 +65,25 @@ export default {
       {
         owner: username,
         repo: reponame,
-        path: ""
+        path: "",
       }
     );
     this.topics = [];
-    rp.data.forEach(d => {
+    rp.data.forEach((d) => {
       if (d.type == "dir" && d.name != "Hello World")
         this.topics.push({
           title: d.name,
           to: "/",
-          path: d.path
+          path: d.path,
         });
     });
   },
   methods: {
     handleChange(pathname) {
       this.$router
-        .replace({ name: "Algos", params: { pathname: pathname } })
+        .replace({ name: "AlgosView", params: { pathname: pathname } })
         .catch(() => {});
-    }
-  }
+    },
+  },
 };
 </script>

@@ -11,11 +11,11 @@ import { default as octokit, username, reponame } from "../../config";
 
 export default {
   components: { ShowCode },
-  name: "Home",
+  name: "HomeView",
   data() {
     return {
       pathname: "Hello World",
-      codes: []
+      codes: [],
     };
   },
   async created() {
@@ -24,26 +24,26 @@ export default {
       {
         owner: username,
         repo: reponame,
-        path: this.pathname
+        path: this.pathname,
       }
     );
     this.codes = [];
-    rp.data.forEach(async code => {
+    rp.data.forEach(async (code) => {
       const fl = await octokit.request(
         "GET /repos/{owner}/{repo}/contents/{path}",
         {
           owner: username,
           repo: reponame,
-          path: code.path
+          path: code.path,
         }
       );
       const cd = await fetch(fl.data[0].download_url);
       this.codes.push({
         langname: code.name.toLowerCase(),
         path: code.path,
-        content: (await cd.text()).toString()
+        content: (await cd.text()).toString(),
       });
     });
-  }
+  },
 };
 </script>
