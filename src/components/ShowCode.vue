@@ -74,15 +74,15 @@ export default {
     statusMessage: {
       completed: "Successfully Compiled",
       running: "Compiling Code...",
-      error: "Error compiling code..."
+      error: "Error compiling code...",
     },
     hlLangs: {
       c: "c",
       cpp: "cpp",
       python3: "python",
       java: "java",
-      golang: "go"
-    }
+      golang: "go",
+    },
   }),
   updated() {
     if (this.currTab !== this.tab) {
@@ -99,26 +99,26 @@ export default {
         .post("http://api.paiza.io:80/runners/create", {
           source_code: srcCode,
           language: langname,
-          api_key: "guest"
+          api_key: "guest",
         })
-        .then(res => {
+        .then((res) => {
           submitId = res.data.id;
           this.compileStatus = res.data.status;
         });
       while (this.compileStatus !== "completed") {
         await axios
           .get("http://api.paiza.io:80/runners/get_status", {
-            params: { id: submitId, api_key: "guest" }
+            params: { id: submitId, api_key: "guest" },
           })
-          .then(res => {
+          .then((res) => {
             this.compileStatus = res.data.status;
           });
       }
       await axios
         .get("http://api.paiza.io:80/runners/get_details", {
-          params: { id: submitId, api_key: "guest" }
+          params: { id: submitId, api_key: "guest" },
         })
-        .then(res => {
+        .then((res) => {
           this.compileResult = res.data;
         });
     },
@@ -126,8 +126,8 @@ export default {
       this.compileShow = false;
       this.compileResult = {};
       this.compileStatus = "none";
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

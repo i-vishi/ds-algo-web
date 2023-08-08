@@ -11,18 +11,18 @@ import { default as octokit, username, reponame } from "../../config";
 
 export default {
   components: { ShowCode },
-  name: "Algos",
+  name: "AlgosView",
   data() {
     return {
       pathname: "",
       codetitle: "",
-      codes: []
+      codes: [],
     };
   },
   watch: {
-    "$route.params.pathname": function() {
+    "$route.params.pathname": function () {
       this.changecontent();
-    }
+    },
   },
   created() {
     this.changecontent();
@@ -36,17 +36,17 @@ export default {
         {
           owner: username,
           repo: reponame,
-          path: this.pathname
+          path: this.pathname,
         }
       );
       this.codes = [];
-      rp.data.forEach(async code => {
+      rp.data.forEach(async (code) => {
         const fl = await octokit.request(
           "GET /repos/{owner}/{repo}/contents/{path}",
           {
             owner: username,
             repo: reponame,
-            path: code.path
+            path: code.path,
           }
         );
         const cd = await fetch(fl.data[0].download_url);
@@ -54,10 +54,10 @@ export default {
           tab: code.name,
           langname: code.name.toLowerCase(),
           path: code.path,
-          content: (await cd.text()).toString()
+          content: (await cd.text()).toString(),
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
